@@ -9,7 +9,7 @@
     "lint-staged": "npx ts-node <rootDir>/lintstagedrc.json"
   },
   "lint-staged": {
-    "src/**/*.{ts}": [
+    "src/**/*.ts": [
       "eslint . --fix",
       "npm run test:staged",
       "git add"
