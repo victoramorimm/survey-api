@@ -1,3 +1,1 @@
-class teste() {
-	
-}
+function teste () {}
