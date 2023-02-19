@@ -5,7 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test:staged": "jest"
+    "test:staged": "jest",
+    "lint-staged": "npx ts-node <rootDir>/lintstagedrc.json"
+  },
+  "lint-staged": {
+    "src/**/*.{ts}": [
+      "eslint . --fix",
+      "npm run test:staged",
+      "git add"
+    ]
   },
   "keywords": [],
   "author": "",
