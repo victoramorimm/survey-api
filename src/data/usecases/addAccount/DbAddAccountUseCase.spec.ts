@@ -1,5 +1,4 @@
-import { AddAccount, AddAccountModel } from '../../../domain/usecases/IAddAccountUseCase'
-import { Encrypter } from '../../protocols/Encrypter'
+import { AddAccount, AddAccountModel, Encrypter } from './DbAddAccountProtocols'
 import { DbAddAccountUseCase } from './DbAddAccountUseCase'
 
 type SutTypes = {
