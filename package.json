@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --passWithNoTests --watch",
-    "test:staged": "jest --passWithNoTests",
-    "lint-staged": "npx ts-node <rootDir>/lintstagedrc.json"
+    "test": "jest --passWithNoTests --silent",
+    "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test:integration": "npm test -- --watch -c jest-integration-config.js --runInBand", 
+    "test:staged": "npm test -- --findRelatedTests",
+    "lint-staged": "npx ts-node <rootDir>/lintstagedrc.json",
+    "test:ci": "npm test -- --coverage"
   },
   "lint-staged": {
     "src/**/*.ts": [
