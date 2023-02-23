@@ -84,4 +84,16 @@ describe('Db Add Account UseCase', () => {
       password: 'encrypted_password'
     })
   })
+
+  test('should throw if AddAccountRepository throws', async () => {
+    const { sut, addAccountRepository } = makeSut()
+
+    jest.spyOn(addAccountRepository, 'add').mockImplementationOnce(async () => {
+      return Promise.reject(new Error('mocked_error'))
+    })
+
+    const promise = sut.add(makeAddAccountModelData())
+
+    await expect(promise).rejects.toThrow()
+  })
 })
