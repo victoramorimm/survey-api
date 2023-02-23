@@ -96,4 +96,17 @@ describe('Db Add Account UseCase', () => {
 
     await expect(promise).rejects.toThrow()
   })
+
+  test('should return an account model on success', async () => {
+    const { sut } = makeSut()
+
+    const account = await sut.add(makeAddAccountModelData())
+
+    expect(account).toEqual({
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: 'hashed_password',
+      id: 'any_id'
+    })
+  })
 })
