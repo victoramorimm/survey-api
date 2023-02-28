@@ -3,6 +3,6 @@ import setupMiddlewares from './middlewares'
 
 const app = express()
 
-app.use(setupMiddlewares)
+setupMiddlewares(app)
 
 export default app
