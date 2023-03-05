@@ -1,9 +1,10 @@
+import env from '../../../main/config/env'
 import { AccountMongoRepository } from './AccountMongoRepository'
 import { MongoHelper } from './helper/MongoHelper'
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    await MongoHelper.connect(global.__MONGO_URI__)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   beforeEach(async () => {
