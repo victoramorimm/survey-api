@@ -3,6 +3,13 @@ import { badRequest } from '../../helpers/HttpHelper'
 import { EmailValidator } from '../../protocols'
 import { LoginController } from './LoginController'
 
+const makeHttpRequest = () => ({
+  body: {
+    email: 'any_email@mail.com',
+    password: 'any_password'
+  }
+})
+
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
     isValid (email: string): boolean {
@@ -57,12 +64,7 @@ describe('Login Controller', () => {
 
     const isValidSpy = jest.spyOn(emailValidator, 'isValid')
 
-    await sut.handle({
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      }
-    })
+    await sut.handle(makeHttpRequest())
 
     expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
