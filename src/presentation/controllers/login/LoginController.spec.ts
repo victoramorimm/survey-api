@@ -171,4 +171,16 @@ describe('Login Controller', () => {
 
     expect(validateSpy).toHaveBeenCalledWith(makeHttpRequest().body)
   })
+
+  test('should return 400 if Validation returned an error', async () => {
+    const { sut, validation } = makeSut()
+
+    jest.spyOn(validation, 'validate').mockImplementationOnce(() => {
+      return new Error()
+    })
+
+    const httpResponse = await sut.handle(makeHttpRequest())
+
+    expect(httpResponse).toEqual(badRequest(new Error()))
+  })
 })
