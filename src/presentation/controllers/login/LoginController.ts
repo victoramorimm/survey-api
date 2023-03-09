@@ -17,14 +17,6 @@ export class LoginController implements Controller {
         return badRequest(okOrError)
       }
 
-      const requiredFields = ['email', 'password']
-
-      for (const field of requiredFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field))
-        }
-      }
-
       const { email, password } = httpRequest.body
 
       const isEmailValid = this.emailValidator.isValid(email)
