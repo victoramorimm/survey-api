@@ -11,7 +11,11 @@ export class LoginController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      this.validation.validate(httpRequest.body)
+      const okOrError = this.validation.validate(httpRequest.body)
+
+      if (okOrError instanceof Error) {
+        return badRequest(okOrError)
+      }
 
       const requiredFields = ['email', 'password']
 
