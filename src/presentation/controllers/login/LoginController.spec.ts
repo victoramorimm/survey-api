@@ -1,7 +1,5 @@
 import { Authentication, AuthenticationData, Validation } from './LoginProtocols'
-import { InvalidParamError } from '../../errors'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/HttpHelper'
-import { EmailValidator } from '../../protocols'
 import { LoginController } from './LoginController'
 
 const makeHttpRequest = () => ({
@@ -10,16 +8,6 @@ const makeHttpRequest = () => ({
     password: 'any_password'
   }
 })
-
-const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid (email: string): boolean {
-      return true
-    }
-  }
-
-  return new EmailValidatorStub()
-}
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
@@ -43,59 +31,22 @@ const makeValidation = (): Validation => {
 
 type SutTypes = {
   sut: LoginController
-  emailValidator: EmailValidator
   authentication: Authentication
   validation: Validation
 }
 
 const makeSut = (): SutTypes => {
-  const emailValidator = makeEmailValidator()
   const authentication = makeAuthentication()
   const validation = makeValidation()
 
   return {
-    sut: new LoginController(emailValidator, authentication, validation),
-    emailValidator,
+    sut: new LoginController(authentication, validation),
     authentication,
     validation
   }
 }
 
 describe('Login Controller', () => {
-  test('should call EmailValidator with correct email', async () => {
-    const { sut, emailValidator } = makeSut()
-
-    const isValidSpy = jest.spyOn(emailValidator, 'isValid')
-
-    await sut.handle(makeHttpRequest())
-
-    expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
-  })
-
-  test('should return 400 if an invalid email is provided', async () => {
-    const { sut, emailValidator } = makeSut()
-
-    jest.spyOn(emailValidator, 'isValid').mockImplementationOnce(() => {
-      return false
-    })
-
-    const httpResponse = await sut.handle(makeHttpRequest())
-
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')))
-  })
-
-  test('should return 500 if Email Validator throws', async () => {
-    const { sut, emailValidator } = makeSut()
-
-    jest.spyOn(emailValidator, 'isValid').mockImplementationOnce(() => {
-      throw new Error('mocked_error')
-    })
-
-    const httpResponse = await sut.handle(makeHttpRequest())
-
-    expect(httpResponse).toEqual(serverError(new Error('mocked_error')))
-  })
-
   test('should call Authentication with correct values', async () => {
     const { sut, authentication } = makeSut()
 
