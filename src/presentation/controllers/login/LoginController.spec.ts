@@ -1,4 +1,4 @@
-import { Authentication, AuthenticationData, Validation } from './LoginProtocols'
+import { Authentication, AuthenticationModel, Validation } from './LoginProtocols'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/HttpHelper'
 import { LoginController } from './LoginController'
 
@@ -11,7 +11,7 @@ const makeHttpRequest = () => ({
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    auth (data: AuthenticationData): Promise<string> {
+    auth (data: AuthenticationModel): Promise<string> {
       return Promise.resolve('any_token')
     }
   }
