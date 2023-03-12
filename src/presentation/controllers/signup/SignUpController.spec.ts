@@ -1,7 +1,7 @@
 import { AccountModel, AddAccount, AddAccountModel, HttpRequest } from './SignUpProtocols'
 import { ServerError } from '../../errors'
 import { SignUpController } from './SignUpController'
-import { badRequest, ok, serverError } from '../../helpers/HttpHelper'
+import { badRequest, ok, serverError } from '../../helpers/http/HttpHelper'
 import { Validation } from '../login/LoginProtocols'
 
 const makeAddAccount = (): AddAccount => {
