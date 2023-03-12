@@ -34,16 +34,18 @@ const makeFakeAccount = (): AccountModel => ({
   name: 'any_name'
 })
 
+const makeAuthenticationData = () => ({
+  email: 'any_email@mail.com',
+  password: 'any_password'
+})
+
 describe('Db Authentication UseCase', () => {
   test('should LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepository } = makeSut()
 
     const loadSpy = jest.spyOn(loadAccountByEmailRepository, 'load')
 
-    await sut.auth({
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
+    await sut.auth(makeAuthenticationData())
 
     expect(loadSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
