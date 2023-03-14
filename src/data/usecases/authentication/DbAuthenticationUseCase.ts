@@ -11,6 +11,6 @@ export class DbAuthenicationUseCase implements Authentication {
 
     await this.loadAccountByEmailRepository.load(email)
 
-    return ''
+    return null
   }
 }
