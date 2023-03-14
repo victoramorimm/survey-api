@@ -40,7 +40,7 @@ const makeAuthenticationData = () => ({
 })
 
 describe('Db Authentication UseCase', () => {
-  test('should LoadAccountByEmailRepository with correct email', async () => {
+  test('should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepository } = makeSut()
 
     const loadSpy = jest.spyOn(loadAccountByEmailRepository, 'load')
@@ -58,5 +58,15 @@ describe('Db Authentication UseCase', () => {
     const promise = sut.auth(makeAuthenticationData())
 
     await expect(promise).rejects.toThrowError('any_error')
+  })
+
+  test('should return null if LoadAccountByEmailRepository returns null', async () => {
+    const { sut, loadAccountByEmailRepository } = makeSut()
+
+    jest.spyOn(loadAccountByEmailRepository, 'load').mockResolvedValueOnce(null)
+
+    const accessToken = await sut.auth(makeAuthenticationData())
+
+    expect(accessToken).toBeNull()
   })
 })
