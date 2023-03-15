@@ -103,4 +103,14 @@ describe('Db Authentication UseCase', () => {
 
     expect(accessToken).toBeNull()
   })
+
+  test('should throw if HashComparer throws', async () => {
+    const { sut, hashComparer } = makeSut()
+
+    jest.spyOn(hashComparer, 'compare').mockRejectedValueOnce(new Error('any_error'))
+
+    const promise = sut.auth(makeAuthenticationData())
+
+    await expect(promise).rejects.toThrowError('any_error')
+  })
 })
