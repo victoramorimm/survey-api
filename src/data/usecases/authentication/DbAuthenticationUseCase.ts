@@ -19,7 +19,9 @@ export class DbAuthenicationUseCase implements Authentication {
       const isPasswordValid = await this.hashComparer.compare(password, account.password)
 
       if (isPasswordValid) {
-        await this.tokenGenerator.generate(account.id)
+        const token = await this.tokenGenerator.generate(account.id)
+
+        return token
       }
     }
 
