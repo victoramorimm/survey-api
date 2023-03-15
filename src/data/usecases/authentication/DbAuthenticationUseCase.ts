@@ -1,11 +1,13 @@
 import { Authentication, AuthenticationModel } from '../../../domain/usecases/IAuthenticationUseCase'
 import { HashComparer } from '../../protocols/criptography/HashComparer'
+import { TokenGenerator } from '../../protocols/criptography/TokenGenerator'
 import { LoadAccountByEmailRepository } from '../../protocols/db/LoadAccountByEmailRepository'
 
 export class DbAuthenicationUseCase implements Authentication {
   constructor (
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
-    private readonly hashComparer: HashComparer
+    private readonly hashComparer: HashComparer,
+    private readonly tokenGenerator: TokenGenerator
   ) {}
 
   async auth (data: AuthenticationModel): Promise<string> {
@@ -14,7 +16,11 @@ export class DbAuthenicationUseCase implements Authentication {
     const account = await this.loadAccountByEmailRepository.load(email)
 
     if (account) {
-      await this.hashComparer.compare(password, account.password)
+      const isPasswordValid = await this.hashComparer.compare(password, account.password)
+
+      if (isPasswordValid) {
+        await this.tokenGenerator.generate(account.id)
+      }
     }
 
     return null
