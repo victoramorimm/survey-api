@@ -2,12 +2,14 @@ import { Authentication, AuthenticationModel } from '../../../domain/usecases/IA
 import { HashComparer } from '../../protocols/criptography/HashComparer'
 import { TokenGenerator } from '../../protocols/criptography/TokenGenerator'
 import { LoadAccountByEmailRepository } from '../../protocols/db/LoadAccountByEmailRepository'
+import { UpdateAccessTokenRepository } from '../../protocols/db/UpdateAccessTokenRepository'
 
 export class DbAuthenicationUseCase implements Authentication {
   constructor (
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly hashComparer: HashComparer,
-    private readonly tokenGenerator: TokenGenerator
+    private readonly tokenGenerator: TokenGenerator,
+    private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {}
 
   async auth (data: AuthenticationModel): Promise<string> {
@@ -20,6 +22,8 @@ export class DbAuthenicationUseCase implements Authentication {
 
       if (isPasswordValid) {
         const token = await this.tokenGenerator.generate(account.id)
+
+        await this.updateAccessTokenRepository.update(token, account.id)
 
         return token
       }
