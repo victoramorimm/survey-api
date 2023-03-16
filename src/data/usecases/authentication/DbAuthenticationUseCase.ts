@@ -1,11 +1,11 @@
 import { Authentication, AuthenticationModel } from '../../../domain/usecases/IAuthenticationUseCase'
-import { UpdateAccessTokenRepository, LoadAccountByEmailRepository, TokenGenerator, HashComparer } from './DbAuthenticationProtocols'
+import { UpdateAccessTokenRepository, LoadAccountByEmailRepository, Encrypter, HashComparer } from './DbAuthenticationProtocols'
 
 export class DbAuthenicationUseCase implements Authentication {
   constructor (
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly hashComparer: HashComparer,
-    private readonly tokenGenerator: TokenGenerator,
+    private readonly encrypter: Encrypter,
     private readonly updateAccessTokenRepository: UpdateAccessTokenRepository
   ) {}
 
@@ -18,7 +18,7 @@ export class DbAuthenicationUseCase implements Authentication {
       const isPasswordValid = await this.hashComparer.compare(password, account.password)
 
       if (isPasswordValid) {
-        const token = await this.tokenGenerator.generate(account.id)
+        const token = await this.encrypter.encrypt(account.id)
 
         await this.updateAccessTokenRepository.update(token, account.id)
 

@@ -1,5 +1,5 @@
 export * from '../../protocols/criptography/HashComparer'
-export * from '../../protocols/criptography/TokenGenerator'
+export * from '../../protocols/criptography/Encrypter'
 export * from '../../protocols/db/LoadAccountByEmailRepository'
 export * from '../../protocols/db/UpdateAccessTokenRepository'
 export * from '../addAccount/DbAddAccountProtocols'
