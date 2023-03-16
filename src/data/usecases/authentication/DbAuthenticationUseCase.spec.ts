@@ -1,8 +1,4 @@
-import { HashComparer } from '../../protocols/criptography/HashComparer'
-import { TokenGenerator } from '../../protocols/criptography/TokenGenerator'
-import { LoadAccountByEmailRepository } from '../../protocols/db/LoadAccountByEmailRepository'
-import { UpdateAccessTokenRepository } from '../../protocols/db/UpdateAccessTokenRepository'
-import { AccountModel } from '../addAccount/DbAddAccountProtocols'
+import { HashComparer, TokenGenerator, LoadAccountByEmailRepository, UpdateAccessTokenRepository, AccountModel } from './DbAuthenticationProtocols'
 import { DbAuthenicationUseCase } from './DbAuthenticationUseCase'
 
 const makeLoadAccountByEmailRepository = () => {
