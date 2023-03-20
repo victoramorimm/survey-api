@@ -2,6 +2,7 @@ import { Collection } from 'mongodb'
 import env from '../../../main/config/env'
 import { AccountMongoRepository } from './AccountMongoRepository'
 import { MongoHelper } from './helper/MongoHelper'
+import { AccountMapper } from './mapper/AccountMapper'
 
 let accountCollection: Collection
 
@@ -71,5 +72,33 @@ describe('Account Mongo Repository', () => {
     )
 
     expect(account).toBeNull()
+  })
+
+  test('should update the account accessToken on updateAccessToken success', async () => {
+    const sut = makeSut()
+
+    const result = await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password'
+    })
+
+    const accountById = await accountCollection.findOne({ _id: result.insertedId })
+
+    const account = AccountMapper.map(accountById)
+
+    expect(account.accessToken).toBeFalsy()
+
+    await sut.updateAccessToken(
+      'any_token',
+      account.id
+    )
+
+    const updatedAccountById = await accountCollection.findOne({ _id: result.insertedId })
+
+    const updatedAccount = AccountMapper.map(updatedAccountById)
+
+    expect(updatedAccount).toBeTruthy()
+    expect(updatedAccount.accessToken).toBe('any_token')
   })
 })
