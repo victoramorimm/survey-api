@@ -1,8 +1,8 @@
 import { Collection } from 'mongodb'
-import env from '../../../main/config/env'
+import env from '../../../../main/config/env'
 import { AccountMongoRepository } from './AccountMongoRepository'
-import { MongoHelper } from './helper/MongoHelper'
-import { AccountMapper } from './mapper/AccountMapper'
+import { MongoHelper } from '../helper/MongoHelper'
+import { AccountMapper } from '../mapper/AccountMapper'
 
 let accountCollection: Collection
 
