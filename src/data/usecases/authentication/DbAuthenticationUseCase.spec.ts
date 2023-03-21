@@ -1,5 +1,5 @@
 import { HashComparer, Encrypter, LoadAccountByEmailRepository, UpdateAccessTokenRepository, AccountModel } from './DbAuthenticationProtocols'
-import { DbAuthenicationUseCase } from './DbAuthenticationUseCase'
+import { DbAuthenticationUseCase } from './DbAuthenticationUseCase'
 
 const makeLoadAccountByEmailRepository = () => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
@@ -42,7 +42,7 @@ const makeUpdateAccessTokenRepository = () => {
 }
 
 type SutTypes = {
-  sut: DbAuthenicationUseCase;
+  sut: DbAuthenticationUseCase;
   loadAccountByEmailRepository: LoadAccountByEmailRepository
   hashComparer: HashComparer;
   encrypter: Encrypter;
@@ -55,7 +55,7 @@ const makeSut = (): SutTypes => {
   const encrypter = makeEncrypter()
   const updateAccessTokenRepository = makeUpdateAccessTokenRepository()
 
-  const sut = new DbAuthenicationUseCase(loadAccountByEmailRepository, hashComparer, encrypter, updateAccessTokenRepository)
+  const sut = new DbAuthenticationUseCase(loadAccountByEmailRepository, hashComparer, encrypter, updateAccessTokenRepository)
 
   return {
     sut,

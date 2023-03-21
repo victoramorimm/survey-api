@@ -1,7 +1,7 @@
 import { Authentication, AuthenticationModel } from '../../../domain/usecases/IAuthenticationUseCase'
 import { UpdateAccessTokenRepository, LoadAccountByEmailRepository, Encrypter, HashComparer } from './DbAuthenticationProtocols'
 
-export class DbAuthenicationUseCase implements Authentication {
+export class DbAuthenticationUseCase implements Authentication {
   constructor (
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
     private readonly hashComparer: HashComparer,
