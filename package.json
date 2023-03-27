@@ -11,9 +11,10 @@
     "lint-staged": "npx ts-node <rootDir>/lintstagedrc.json",
     "test:ci": "npm test -- --coverage",
     "build": "rimraf dist && tsc",
-    "up": "npm run build && docker-compose up -d",
+    "up": "npm run build && docker-compose up",
     "down": "docker-compose down",
-    "start": "node dist/main/server.js"
+    "start": "node dist/main/server.js",
+    "debug": "node --inspect=0.0.0.0:9222 --nolazy dist/main/server.js"
   },
   "lint-staged": {
     "src/**/*.ts": [
