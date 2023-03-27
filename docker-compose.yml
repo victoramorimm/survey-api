@@ -15,7 +15,7 @@ services:
     image: curso-node-api
     command: npm start
     volumes:
-      - ./dist:/usr/src/curso-node-api
+      - ./dist:/usr/src/curso-node-api/dist
     ports: 
       - "5050:5050"
     links:
