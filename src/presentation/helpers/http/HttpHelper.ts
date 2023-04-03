@@ -21,3 +21,8 @@ export const unauthorized = () => ({
   statusCode: 401,
   body: new UnauthorizedError()
 })
+
+export const forbidden = (error: Error) => ({
+  statusCode: 403,
+  body: error
+})
