@@ -1,14 +1,12 @@
-import { LogMongoRepository } from '../../../../infra/db/mongodb/log/LogMongoRepository'
 import { SignUpController } from '../../../../presentation/controllers/signup/SignUpController'
 import { Controller } from '../../../../presentation/protocols'
-import { LogControllerDecorator } from '../../../decorators/LogControllerDecorator'
+import { makeLogControllerDecorator } from '../../decorators/LogControllerDecoratorFactory'
 import { makeDbAddAccount } from '../../useCases/addAccount/DbAddAccountFactory'
 import { makeDbAuthentication } from '../../useCases/authentication/DbAuthenticationFactory'
 import { makeSignUpValidation } from './SignUpValidationFactory'
 
 export const makeSignUpController = (): Controller => {
   const controller = new SignUpController(makeDbAddAccount(), makeSignUpValidation(), makeDbAuthentication())
-  const logMongoRepository = new LogMongoRepository()
 
-  return new LogControllerDecorator(controller, logMongoRepository)
+  return makeLogControllerDecorator(controller)
 }
