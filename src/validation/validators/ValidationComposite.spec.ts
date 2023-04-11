@@ -1,4 +1,4 @@
-import { Validation } from '../../protocols/Validation'
+import { Validation } from '../../presentation/protocols'
 import { ValidationComposite } from './ValidationComposite'
 
 const makeValidation = (): Validation => {
